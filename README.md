@@ -109,3 +109,145 @@ The script will:
 5. ✅ Verify everything is running
 
 6. 🔗 Provide access URLs
+
+Access Points
+- Frontend: http://localhost:3000
+
+- Backend API: http://localhost:3001
+
+# Manual Docker Commands
+If you prefer to run manually:
+
+```bash
+# Build images
+docker build -t backend:1.0.0 ./backend
+docker build -t frontend:1.0.0 ./frontend
+
+# Create network
+docker network create demo-network
+
+# Run containers
+docker run -d --name backend --network demo-network -p 3001:3001 demo-backend
+docker run -d --name frontend --network demo-network -p 3000:3000 demo-frontend
+```
+
+# 📊 API Endpoints
+
+**Backend (Port 3001)**
+
+| Method | Endpoint        | Description                                      |
+|--------|-----------------|--------------------------------------------------|
+| GET    | `/`             | API documentation page                           |
+| GET    | `/api/messages` | Get all messages                                 |
+| POST   | `/api/messages` | Add new message (JSON: `{"message": "text"}`)    |
+| GET    | `/api/health`   | Health check                                     |
+
+# 🗄️ Data Persistence
+Local Development: Data stored in backend/data/messages.json
+
+Docker: Data persisted in demo-backend-data volume
+
+Messages survive container restarts when using Docker volumes
+
+# 🛠️ Management Commands
+### View Logs
+```bash
+# Backend logs
+docker logs -f demo-backend-container
+
+# Frontend logs  
+docker logs -f demo-frontend-container
+```
+### Stop Application
+```bash
+docker stop demo-backend-container demo-frontend-container
+```
+### Remove Everything
+```bash
+# Stop and remove containers
+docker stop demo-backend-container demo-frontend-container
+docker rm demo-backend-container demo-frontend-container
+
+# Remove images
+docker rmi demo-backend demo-frontend
+
+# Remove volumes
+docker volume rm demo-backend-data demo-frontend-data
+
+# Remove network
+docker network rm demo-network
+```
+### Check Volume Data
+```bash
+# View files in backend volume
+docker run --rm -v demo-backend-data:/data alpine ls -la /data
+
+# Backup volume data
+docker run --rm -v demo-backend-data:/source -v $(pwd):/backup alpine tar czf /backup/backup.tar.gz -C /source .
+```
+
+# 🔧 Troubleshooting
+### Common Issues
+1. Ports already in use
+
+    - Ensure ports 3000 and 3001 are available
+
+    - Stop any existing Node.js processes
+
+2. Backend connection failed
+
+    - Verify backend is running on port 3001
+
+    - Check http://localhost:3001/api/health
+
+3. Docker permission issues
+
+    - Run with sudo if needed
+
+    - Add your user to docker group: sudo usermod -aG docker $USER
+
+4. Volume not persisting data
+
+    - Check volume exists: docker volume ls
+
+    - Restart containers with the same volume
+
+**Debugging Steps**
+1. Check container status: docker ps
+
+2. View logs: docker logs <container-name>
+
+3. Test backend directly: curl http://localhost:3001/api/health
+
+4. Check network: docker network inspect demo-network
+
+# 📝 Development Notes
+- Backend uses CORS to allow frontend connections
+
+- Frontend automatically detects backend status
+
+- Data is stored in JSON format with timestamps
+
+- Docker containers communicate via internal network
+
+- Health checks ensure service availability
+
+# 🎯 Next Steps
+**Potential enhancements:**
+
+- Add user authentication
+
+- Implement message editing/deletion
+
+- Add database integration (MongoDB/PostgreSQL)
+
+- Deploy to cloud platform (AWS, GCP, Azure)
+
+- Add CI/CD pipeline
+
+- Implement real-time updates with WebSockets
+
+# 📄 License
+This is a demo application for educational purposes.
+
+Happy Coding! 🚀
