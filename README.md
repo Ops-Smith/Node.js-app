@@ -52,7 +52,60 @@ nodejs-demo/
 
 # 🏃‍♂️ Local Development
 1. Clone and Setup
+
 ```bash
-git clone <your-repo-url>
+git clone <repo url>
 cd nodejs-demo
 ```
+
+2. Backend Setup
+
+```bash
+cd backend
+npm install
+npm start
+```
+Backend will run on: http://localhost:3001
+
+3. Frontend Setup
+```bash
+
+# New terminal window/tab
+cd frontend
+npm install
+npm start
+```
+Frontend will run on: http://localhost:3000
+
+4. Test the Application
+* Open http://localhost:3000 in your browser
+
+* You should see the message board interface
+
+* Backend status should show "Connected ✅"
+
+* Try sending a message - it should appear instantly
+
+# 🐳 Docker Deployment
+## Using the Automated Script (Recommended)
+```bash
+# Make the script executable (first time only)
+chmod +x run.sh
+
+# Run the application
+./run.sh
+```
+
+The script will:
+
+1. 🛑 Stop any existing containers
+
+2. 📦 Build new Docker images
+
+3. 🌐 Create Docker network
+
+4. 🐳 Start both backend and frontend containers
+
+5. ✅ Verify everything is running
+
+6. 🔗 Provide access URLs
