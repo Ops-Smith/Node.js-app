@@ -250,4 +250,4 @@ docker run --rm -v demo-backend-data:/source -v $(pwd):/backup alpine tar czf /b
 # 📄 License
 This is a demo application for educational purposes.
 
-Happy Coding! 🚀
+**Happy Coding! 🚀**
