@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Demo App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Node.js Demo</h1>
+        <p>Frontend and Backend with Docker</p>
+        
+        <div class="message-section">
+            <h2>Add a Message</h2>
+            <form id="messageForm">
+                <input type="text" id="messageInput" placeholder="Enter your message" required>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+
+        <div class="messages-section">
+            <h2>Messages</h2>
+            <button onclick="loadMessages()">Refresh Messages</button>
+            <div id="messagesList"></div>
+        </div>
+
+        <div class="status">
+            <h3>Backend Status: <span id="backendStatus">Checking...</span></h3>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

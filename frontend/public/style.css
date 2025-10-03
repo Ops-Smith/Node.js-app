@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.message-section, .messages-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+h2 {
+    color: #444;
+    margin-bottom: 15px;
+}
+
+form {
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#messagesList {
+    margin-top: 15px;
+}
+
+.message-item {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f8f9fa;
+    border-left: 4px solid #007bff;
+    border-radius: 4px;
+}
+
+.status {
+    text-align: center;
+    padding: 15px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+#backendStatus {
+    font-weight: bold;
+}
+
+#backendStatus.connected {
+    color: #28a745;
+}
+
+#backendStatus.error {
+    color: #dc3545;
+}
