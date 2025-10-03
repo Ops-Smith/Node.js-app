@@ -13,7 +13,7 @@ This application consists of:
 4. Bash Script - Automated build and deployment
 
 # 🏗️ Architecture
-
+```text
 nodejs-demo/
 ├── backend/                 # Express.js API server
 │   ├── server.js           # Main backend server
@@ -29,16 +29,5 @@ nodejs-demo/
 ├── Dockerfile.backend      # Backend Docker configuration
 ├── Dockerfile.frontend     # Frontend Docker configuration
 └── run.sh                  # Deployment script
-
-# 📋 Features
-- ✅ Add new messages via web interface
-
-- ✅ View all messages with timestamps
-
-- ✅ Real-time backend status monitoring
-
-- ✅ Data persistence with Docker volumes
-
-- ✅ Responsive design
-
-- ✅ Health check endpoints
+```
+# 
