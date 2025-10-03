@@ -30,4 +30,29 @@ nodejs-demo/
 ├── Dockerfile.frontend     # Frontend Docker configuration
 └── run.sh                  # Deployment script
 ```
-# 
+# 📋 Features
+- ✅ Add new messages via web interface
+
+- ✅ View all messages with timestamps
+
+- ✅ Real-time backend status monitoring
+
+- ✅ Data persistence with Docker volumes
+
+- ✅ Responsive design
+
+- ✅ Health check endpoints
+
+# 🛠️ Prerequisites
+1. Node.js (v14 or higher)
+
+2. Docker (v20 or higher)
+
+3. Git
+
+# 🏃‍♂️ Local Development
+1. Clone and Setup
+```bash
+git clone <your-repo-url>
+cd nodejs-demo
+```
