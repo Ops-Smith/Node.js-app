@@ -193,3 +193,61 @@ app.listen(PORT, '0.0.0.0', () => {
     
     ensureDataDirectory();
 });
+// Add these routes after your existing routes
+
+// Delete all messages
+app.delete('/api/messages', (req, res) => {
+    try {
+        fs.writeFileSync(dataFile, JSON.stringify([]));
+        res.json({ message: 'All messages deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete messages' });
+    }
+});
+
+// Delete a specific message by ID
+app.delete('/api/messages/:id', (req, res) => {
+    try {
+        const messageId = parseInt(req.params.id);
+        const data = fs.readFileSync(dataFile, 'utf8');
+        const messages = JSON.parse(data);
+        
+        const initialLength = messages.length;
+        const filteredMessages = messages.filter(msg => msg.id !== messageId);
+        
+        if (filteredMessages.length === initialLength) {
+            return res.status(404).json({ error: 'Message not found' });
+        }
+        
+        fs.writeFileSync(dataFile, JSON.stringify(filteredMessages, null, 2));
+        res.json({ message: 'Message deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete message' });
+    }
+});
+
+// Delete messages older than X hours
+app.delete('/api/messages/cleanup/:hours', (req, res) => {
+    try {
+        const hours = parseInt(req.params.hours);
+        const data = fs.readFileSync(dataFile, 'utf8');
+        const messages = JSON.parse(data);
+        
+        const cutoffTime = new Date();
+        cutoffTime.setHours(cutoffTime.getHours() - hours);
+        
+        const initialLength = messages.length;
+        const filteredMessages = messages.filter(msg => new Date(msg.timestamp) > cutoffTime);
+        const deletedCount = initialLength - filteredMessages.length;
+        
+        fs.writeFileSync(dataFile, JSON.stringify(filteredMessages, null, 2));
+        
+        res.json({ 
+            message: `Deleted ${deletedCount} messages older than ${hours} hours`,
+            deleted: deletedCount,
+            remaining: filteredMessages.length
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to cleanup messages' });
+    }
+});

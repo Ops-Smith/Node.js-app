@@ -34,8 +34,11 @@ async function loadMessages() {
             const messageElement = document.createElement('div');
             messageElement.className = 'message-item';
             messageElement.innerHTML = `
-                <strong>${new Date(msg.timestamp).toLocaleString()}:</strong>
-                <span>${msg.message}</span>
+                <div class="message-content">
+                    <strong>${new Date(msg.timestamp).toLocaleString()}:</strong>
+                    <span>${msg.message}</span>
+                </div>
+                <button class="delete-message-btn" onclick="deleteMessage(${msg.id})">Delete</button>
             `;
             messagesList.appendChild(messageElement);
         });
@@ -43,6 +46,86 @@ async function loadMessages() {
         console.error('Failed to load messages:', error);
         document.getElementById('messagesList').innerHTML = 
             '<p style="color: red;">Failed to load messages. Check if backend is running.</p>';
+    }
+}
+
+// Add these functions to your existing app.js
+
+// Delete all messages
+async function deleteAllMessages() {
+    if (!confirm('Are you sure you want to delete ALL messages? This cannot be undone.')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/messages`, {
+            method: 'DELETE',
+        });
+        
+        if (response.ok) {
+            alert('All messages deleted successfully');
+            loadMessages();
+        } else {
+            const error = await response.json();
+            alert('Failed to delete messages: ' + error.error);
+        }
+    } catch (error) {
+        console.error('Error deleting messages:', error);
+        alert('Error deleting messages. Check backend connection.');
+    }
+}
+
+// Delete a specific message
+async function deleteMessage(messageId) {
+    if (!confirm('Are you sure you want to delete this message?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/messages/${messageId}`, {
+            method: 'DELETE',
+        });
+        
+        if (response.ok) {
+            loadMessages();
+        } else {
+            const error = await response.json();
+            alert('Failed to delete message: ' + error.error);
+        }
+    } catch (error) {
+        console.error('Error deleting message:', error);
+        alert('Error deleting message. Check backend connection.');
+    }
+}
+
+// Cleanup old messages
+async function cleanupOldMessages() {
+    const hours = prompt('Delete messages older than how many hours?', '24');
+    
+    if (hours === null) return; // User cancelled
+    
+    const hoursNum = parseInt(hours);
+    if (isNaN(hoursNum) || hoursNum < 1) {
+        alert('Please enter a valid number of hours (1 or more)');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/messages/cleanup/${hoursNum}`, {
+            method: 'DELETE',
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            alert(result.message);
+            loadMessages();
+        } else {
+            const error = await response.json();
+            alert('Failed to cleanup messages: ' + error.error);
+        }
+    } catch (error) {
+        console.error('Error cleaning up messages:', error);
+        alert('Error cleaning up messages. Check backend connection.');
     }
 }
 
@@ -79,4 +162,6 @@ document.getElementById('messageForm').addEventListener('submit', async (e) => {
 // Initialize
 checkBackendStatus();
 loadMessages();
+deleteAllMessages()
+cleanupOldMessages()
 setInterval(checkBackendStatus, 30000);

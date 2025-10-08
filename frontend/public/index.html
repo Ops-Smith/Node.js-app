@@ -21,8 +21,24 @@
 
         <div class="messages-section">
             <h2>Messages</h2>
-            <button onclick="loadMessages()">Refresh Messages</button>
+            <div class="message-actions">
+                <button onclick="loadMessages()">🔄 Refresh Messages</button>
+                <button onclick="cleanupOldMessages()" class="cleanup-btn">Cleanup Old Messages</button>
+                <button onclick="deleteAllMessages()" class="delete-btn">Delete All Messages</button>
+            </div>
             <div id="messagesList"></div>
+        </div>
+
+        <div class="management-section">
+            <h2>Management</h2>
+            <div class="management-actions">
+                <button onclick="cleanupOldMessages()" class="cleanup-btn">
+                    🗑️ Cleanup Messages Older Than...
+                </button>
+                <button onclick="deleteAllMessages()" class="delete-btn">
+                    ⚠️ Delete All Messages
+                </button>
+            </div>
         </div>
 
         <div class="status">
